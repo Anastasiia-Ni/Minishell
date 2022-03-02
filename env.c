@@ -6,7 +6,7 @@
 /*   By: anifanto <stasy247@mail.ru>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 16:39:21 by kabusitt          #+#    #+#             */
-/*   Updated: 2022/03/01 14:31:29 by anifanto         ###   ########.fr       */
+/*   Updated: 2022/03/02 14:29:11 by anifanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	check_quotes(char *line)
 			quotes = 2;
 		else if (line[i] == '\'' && quotes == 2)
 			quotes = 0;
-		if (line[i] == '$' && quotes == 1)
+		if (line[i] == '$' && (quotes == 1 || quotes == 0))
 			line[i] = 1;
 		++i;
 	}

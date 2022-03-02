@@ -6,7 +6,7 @@
 /*   By: anifanto <stasy247@mail.ru>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 15:48:55 by anifanto          #+#    #+#             */
-/*   Updated: 2022/03/01 20:54:43 by anifanto         ###   ########.fr       */
+/*   Updated: 2022/03/02 14:33:53 by anifanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ static void	ft_print_export(char **env)
 	i = 0;
 	while (env[i])
 	{
+		index = 0;
 		printf ("declare -x " );
-		index = ft_strlen(env[i]) - ft_strlen(ft_strchr(env[i], '='));
+		if (ft_strchr(env[i], '='))
+			index = ft_strlen(env[i]) - ft_strlen(ft_strchr(env[i], '='));
 		if (!index)
 			printf("%s\n", env[i]);
 		else

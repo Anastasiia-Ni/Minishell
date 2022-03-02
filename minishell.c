@@ -6,7 +6,7 @@
 /*   By: anifanto <stasy247@mail.ru>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 14:07:13 by kabusitt          #+#    #+#             */
-/*   Updated: 2022/03/02 14:08:23 by anifanto         ###   ########.fr       */
+/*   Updated: 2022/03/02 14:14:54 by anifanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	run_prog(t_prog *prog)
 			z = next_op(prog, z) + 1;
 			redir(prog, z);
 		}
-		if ((i == 0 || (i > 0 && prog->type[i - 1] == PIPE)) && !prog->err)
+		if ((i == 0 || (i > 0 && prog->type[i - 1] == PIPE)) && !prog->err && prog->type[i] == CMD)
 			parse_exec(prog, i);
 		i = next_pipe(prog, i) + 1;
 		z = i;
