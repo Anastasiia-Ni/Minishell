@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kabusitt <kabusitt@student.42abudhabi.a    +#+  +:+       +#+        */
+/*   By: anifanto <stasy247@mail.ru>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 14:07:13 by kabusitt          #+#    #+#             */
-/*   Updated: 2022/02/18 05:08:57 by kabusitt         ###   ########.fr       */
+/*   Updated: 2022/03/02 14:08:23 by anifanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	prog.env = envp;
 	prog.ret = 0;
-	prog.sort_env = sort_env(envp);
+	//prog.sort_env = sort_env(envp);
 	//printf("\033[?1049h\033[H");
 	while (1)
 	{
