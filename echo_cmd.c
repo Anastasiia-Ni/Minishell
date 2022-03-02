@@ -6,7 +6,7 @@
 /*   By: anifanto <stasy247@mail.ru>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 22:59:30 by kabusitt          #+#    #+#             */
-/*   Updated: 2022/03/02 11:35:33 by anifanto         ###   ########.fr       */
+/*   Updated: 2022/03/02 17:00:00 by anifanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,6 @@ void	echo_cmd(t_prog *prog, char **cmd)
 	}
 	while (cmd[i])
 	{
-		// if (!ft_strcmp(cmd[i], "$?"))
-		// 	printf("%i", prog->ret);
-		//else
 		printf("%s", cmd[i]);
 		if (cmd[i + 1])
 			printf(" ");

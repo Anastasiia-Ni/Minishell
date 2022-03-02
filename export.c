@@ -6,7 +6,7 @@
 /*   By: anifanto <stasy247@mail.ru>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 15:48:08 by anifanto          #+#    #+#             */
-/*   Updated: 2022/03/01 21:06:58 by anifanto         ###   ########.fr       */
+/*   Updated: 2022/03/02 17:02:38 by anifanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	ft_var_exist(char **env, char *var)
 	{
 		while (env[i])
 		{
-			if (env[i][0] == var[0] && env[i][1] == '=')
+			if (env[i][0] == var[0] && (env[i][1] == '=' || !env[i][1]))
 				return (1);
 			i++;
 		}
@@ -53,7 +53,8 @@ static int	ft_var_exist(char **env, char *var)
 	}
 	while (env[i])
 	{
-		if (!ft_strncmp(var, env[i], size - 1) && env[i][size] == '=')
+		if (!ft_strncmp(var, env[i], size - 1)
+			&& (env[i][size] == '=' || !env[i][size]))
 			return (1);
 		i++;
 	}
@@ -72,9 +73,9 @@ static	void	ft_update_var(t_prog *prog, char *str, char *var)
 		while (prog->env[i][j] == var[j]
 			&& (var[j] && prog->env[i][j] != '='))
 			j++;
-		if (str[j] == '=' && prog->env[i][j] == '=')
+		if (str[j] == '=' && (prog->env[i][j] == '=' || !prog->env[i][j]))
 		{
-			//free(prog->env[i]);
+			free(prog->env[i]);
 			prog->env[i] = NULL;
 			prog->env[i] = ft_strdup(str);
 			return ;
@@ -87,10 +88,18 @@ void	ft_export(t_prog *prog, char **env)
 {
 	int		i;
 	char	*var;
+	char	**new_env;
 
 	i = 1;
 	if (!(prog->token[i]))
-		ft_distr_export(prog, env);
+	{
+		new_env = ft_distr_export(prog, env);
+		if (new_env)
+		{
+			ft_print_export(new_env);
+			free(new_env);
+		}
+	}
 	while (prog->token[i] && ft_check_export_error(prog, prog->token[i]))
 	{
 		var = ft_substr(prog->token[i], 0, ft_searh_index(prog->token[i], '='));

@@ -6,13 +6,13 @@
 /*   By: anifanto <stasy247@mail.ru>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 15:48:55 by anifanto          #+#    #+#             */
-/*   Updated: 2022/03/02 14:33:53 by anifanto         ###   ########.fr       */
+/*   Updated: 2022/03/02 15:27:08 by anifanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ft_print_export(char **env)
+void	ft_print_export(char **env)
 {
 	int		i;
 	int		index;
@@ -59,7 +59,7 @@ char	**ft_new_export_envp(t_prog *prog, char **env)
 	return (new_env);
 }
 
-void	ft_distr_export(t_prog *prog, char **env)
+char	**ft_distr_export(t_prog *prog, char **env)
 {
 	char	**new_env;
 	char	*tmp;
@@ -84,9 +84,5 @@ void	ft_distr_export(t_prog *prog, char **env)
 		}
 		i++;
 	}
-	if (new_env)
-	{
-		ft_print_export(new_env);
-		free(new_env);
-	}
+	return (new_env);
 }

@@ -6,7 +6,7 @@
 /*   By: anifanto <stasy247@mail.ru>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 15:51:40 by anifanto          #+#    #+#             */
-/*   Updated: 2022/03/01 20:25:40 by anifanto         ###   ########.fr       */
+/*   Updated: 2022/03/02 16:54:53 by anifanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ void	ft_change_env(t_prog *prog, char **env, char *tmp)
 	path = ft_get_pwd(prog);
 	if (old_pwd >= 0)
 	{
-		//free(env[old_pwd]);
+		free(env[old_pwd]);
 		env[old_pwd] = ft_strjoin("OLDPWD=", tmp, 0);
 	}
 	if (now_pwd >= 0)
 	{
-		//free(env[now_pwd]);
+		free(env[now_pwd]);
 		env[now_pwd] = ft_strjoin("PWD=", path, 0);
 	}
 	free(path);

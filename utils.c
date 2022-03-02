@@ -6,7 +6,7 @@
 /*   By: anifanto <stasy247@mail.ru>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 04:53:50 by kabusitt          #+#    #+#             */
-/*   Updated: 2022/03/01 15:43:02 by anifanto         ###   ########.fr       */
+/*   Updated: 2022/03/02 16:33:41 by anifanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,18 @@ int	dollar_am(char *str)
 		++i;
 	}
 	return (cnt);
+}
+
+void	do_env(char *str, int i, t_prog *prog, char **ret)
+{
+	char	*env;
+	char	*var;
+
+	env = env_name(str, i, env_len(str, i) + 2);
+	var = get_env(env, prog);
+	if (env)
+		free(env);
+	*ret = ft_strjoin(*ret, var, 1);
+	if (var)
+		free(var);
 }

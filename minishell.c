@@ -6,7 +6,7 @@
 /*   By: anifanto <stasy247@mail.ru>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 14:07:13 by kabusitt          #+#    #+#             */
-/*   Updated: 2022/03/02 14:14:54 by anifanto         ###   ########.fr       */
+/*   Updated: 2022/03/02 16:59:10 by anifanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	run_prog(t_prog *prog)
 			z = next_op(prog, z) + 1;
 			redir(prog, z);
 		}
-		if ((i == 0 || (i > 0 && prog->type[i - 1] == PIPE)) && !prog->err && prog->type[i] == CMD)
+		if ((i == 0 || (i > 0 && prog->type[i - 1] == PIPE))
+			&& !prog->err && prog->type[i] == CMD)
 			parse_exec(prog, i);
 		i = next_pipe(prog, i) + 1;
 		z = i;
@@ -85,10 +86,9 @@ int	main(int argc, char **argv, char **envp)
 	prog.out = dup(1);
 	(void)argc;
 	(void)argv;
-	prog.env = envp;
+	prog.env = cpy_env(envp);
 	prog.ret = 0;
-	//prog.sort_env = sort_env(envp);
-	//printf("\033[?1049h\033[H");
+	ft_check_env(&prog, prog.env);
 	while (1)
 	{
 		prog.fdin = -1;
@@ -101,6 +101,6 @@ int	main(int argc, char **argv, char **envp)
 		if (ret == 0 && check_token(&prog))
 			shell(&prog);
 	}
-	free_split(prog.sort_env);
+	free_split(prog.env);
 	return (0);
 }

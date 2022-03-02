@@ -6,7 +6,7 @@
 /*   By: anifanto <stasy247@mail.ru>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 16:27:18 by anifanto          #+#    #+#             */
-/*   Updated: 2022/03/01 20:31:22 by anifanto         ###   ########.fr       */
+/*   Updated: 2022/03/02 18:31:30 by anifanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,11 @@ void	ft_add_new_env(t_prog *prog, char *str)
 	new_env[i] = ft_strdup(str);
 	i++;
 	new_env[i] = NULL;
-	//free(prog->env);
+	free(prog->env);
 	prog->env = new_env;
 }
 
-void	ft_check_env(t_prog *prog, char **env) // никуда пока не вставлена
+void	ft_check_env(t_prog *prog, char **env)
 {
 	char	*nb_dep;
 	int		tmp;

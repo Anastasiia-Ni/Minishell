@@ -6,7 +6,7 @@
 /*   By: anifanto <stasy247@mail.ru>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 15:45:48 by anifanto          #+#    #+#             */
-/*   Updated: 2022/03/01 16:26:11 by anifanto         ###   ########.fr       */
+/*   Updated: 2022/03/02 18:22:16 by anifanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static	char	**ft_change_unset_env(t_prog *prog, char **env, int tmp)
 
 	i = -1;
 	size = ft_env_size(env);
-	new_env = (char **)malloc(sizeof(char *) * size); // нужно где-то освободить память в одном из предл ниже
+	new_env = (char **)malloc(sizeof(char *) * size);
 	if (!new_env)
 	{
 		ft_putendl_fd("error allocating memory", 2);
@@ -54,7 +54,7 @@ static	char	**ft_change_unset_env(t_prog *prog, char **env, int tmp)
 	while (i++ < size - 1)
 		new_env[i - 1] = env[i];
 	new_env[i] = NULL;
-	//free(env);
+	free(env);
 	return (new_env);
 }
 
@@ -84,10 +84,7 @@ void	ft_unset(t_prog *prog, char **env)
 		if (tmp >= 0)
 		{
 			if (ft_check_variable(prog->token[i], env[tmp]))
-			{
-				//free(prog->env); // abort ??
 				prog->env = ft_change_unset_env(prog, prog->env, tmp);
-			}
 		}
 		i++;
 	}

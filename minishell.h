@@ -6,7 +6,7 @@
 /*   By: anifanto <stasy247@mail.ru>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 15:20:34 by kabusitt          #+#    #+#             */
-/*   Updated: 2022/03/01 20:31:37 by anifanto         ###   ########.fr       */
+/*   Updated: 2022/03/02 16:33:56 by anifanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@
 typedef struct s_prog
 {
 	char	**env;
-	char	**sort_env;
 	char	**token;
 	int		*type;
 	int		*flag;
@@ -81,7 +80,7 @@ void	builtin_exec(t_prog *prog, char **cmd);
 void	expand(char **cmd, t_prog *prog);
 char	**parse_cmd(t_prog *prog, int i);
 int		check_token(t_prog *prog);
-char	*find_env(char *str, t_prog *prog);
+char	*find_env(char *str, t_prog *prog, int i);
 int		check_type(t_prog *prog, int index, char *types);
 void	echo_cmd(t_prog *prog, char **cmd);
 void	ft_pwd(t_prog *prog);
@@ -109,7 +108,8 @@ void	ft_export(t_prog *prog, char **env);
 void	ft_unset(t_prog *prog, char **env);
 int		ft_find_env(char **env, char *str);
 int		ft_searh_index(char *str, char c);
-void	ft_distr_export(t_prog *prog, char **env);
+char	**ft_distr_export(t_prog *prog, char **env);
+void	ft_print_export(char **env);
 void	ft_add_new_env(t_prog *prog, char *str);
 void	ft_check_env(t_prog *prog, char **env);
 void	fix_type(t_prog *prog);
@@ -118,6 +118,11 @@ int		cnt_fix(t_prog *prog, int i);
 void	swap_tokens(t_prog *prog, int i);
 void	fix_token(t_prog *prog);
 int		dollar_am(char *str);
+void	ft_check_env(t_prog *prog, char **env);
+char	**cpy_env(char **env);
+void	do_env(char *str, int i, t_prog *prog, char **ret);
+char	*env_name(char *str, int i, int len);
+int		env_len(char *str, int i);
 
 extern int	g_pid;
 
