@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anifanto <stasy247@mail.ru>                +#+  +:+       +#+        */
+/*   By: kabusitt <kabusitt@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 00:52:44 by kabusitt          #+#    #+#             */
-/*   Updated: 2022/03/01 14:02:29 by anifanto         ###   ########.fr       */
+/*   Updated: 2022/03/04 15:16:47 by kabusitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*get_env(char *env, t_prog *prog)
 	int		i;
 
 	i = 0;
+	if (env[0] == '=' && env[1] == '\0')
+		return (ft_strdup("$"));
 	if (!ft_strcmp(env, "?="))
 		return (ft_itoa(prog->ret));
 	else
@@ -48,9 +50,11 @@ void	builtin_chk(t_prog *prog, char **cmd)
 	close_piptmp(prog);
 }
 
-void	print_error(t_prog *prog)
+void	print_error_c(t_prog *prog, char *str)
 {
-	ft_putendl_fd("command not found", 2);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putendl_fd(": command not found", 2);
 	prog->ret = 127;
 }
 

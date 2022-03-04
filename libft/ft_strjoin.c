@@ -6,13 +6,13 @@
 /*   By: kabusitt <kabusitt@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 14:48:24 by kabusitt          #+#    #+#             */
-/*   Updated: 2022/01/26 00:48:16 by kabusitt         ###   ########.fr       */
+/*   Updated: 2022/03/03 19:45:55 by kabusitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(char const *s1, char const *s2, int freemem)
+char	*ft_strjoin(char *s1, char const *s2, int freemem)
 {
 	char	*str;
 

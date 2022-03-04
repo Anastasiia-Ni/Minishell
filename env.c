@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anifanto <stasy247@mail.ru>                +#+  +:+       +#+        */
+/*   By: kabusitt <kabusitt@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 16:39:21 by kabusitt          #+#    #+#             */
-/*   Updated: 2022/03/02 16:08:13 by anifanto         ###   ########.fr       */
+/*   Updated: 2022/03/03 19:57:58 by kabusitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	expand(char **cmd, t_prog *prog)
 	char	*expan;
 	int		i;
 
+	i = 0;
 	tmp = find_not_env(*cmd, &i);
 	expan = find_env(*cmd, prog, i);
 	free(*cmd);
@@ -93,4 +94,31 @@ void	expand(char **cmd, t_prog *prog)
 		free(tmp);
 	if (expan)
 		free(expan);
+}
+
+char	*find_env(char *str, t_prog *prog, int i)
+{
+	char	*ret;
+	char	tmp[2];
+
+	ret = NULL;
+	tmp[1] = '\0';
+	while (str[i])
+	{
+		if (str[i] == 1 && str[i + 1] != '\0')
+		{
+			do_env(str, ++i, prog, &ret);
+			i += env_len(str, i);
+		}
+		if (str[i])
+		{
+			if (str[i] == 1)
+				tmp[0] = '$';
+			else
+				tmp[0] = str[i];
+			ret = ft_strjoin(ret, tmp, 1);
+			++i;
+		}
+	}
+	return (ret);
 }

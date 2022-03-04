@@ -6,7 +6,7 @@
 /*   By: kabusitt <kabusitt@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 00:10:45 by kabusitt          #+#    #+#             */
-/*   Updated: 2022/02/18 05:04:55 by kabusitt         ###   ########.fr       */
+/*   Updated: 2022/03/03 15:59:13 by kabusitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,11 @@ void	pipe_init(t_prog *prog)
 	int	*pfd;
 
 	sz = pipe_size(prog);
+	g_pid.size = sz + 1;
+	g_pid.pid = malloc(sizeof(int) * (sz + 1));
+	g_pid.status = malloc(sizeof(int) * (sz + 1));
+	ft_bzero(g_pid.pid, g_pid.size);
+	ft_bzero(g_pid.status, g_pid.size);
 	prog->pipes = sz;
 	i = 0;
 	pfd = malloc(sizeof(int) * (sz * 2));
@@ -92,6 +97,7 @@ void	pipe_exec(t_prog *prog, char *path, char **cmd)
 	int	pip;
 	int	stat;
 
+	stat = 0;
 	if (prog->exec)
 		stat = execve(path, cmd, prog->env);
 	else
@@ -102,7 +108,8 @@ void	pipe_exec(t_prog *prog, char *path, char **cmd)
 		if (!prog->delim && !prog->redinput && prog->pipnum > 0)
 			dup2(prog->pipfd[pip - 2], 0);
 		stat = execve(path, cmd, prog->env);
-		close_pipes(prog);
 	}
+	print_error_d(prog, path);
+	close_pipes(prog);
 	exit(stat);
 }

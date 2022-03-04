@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anifanto <stasy247@mail.ru>                +#+  +:+       +#+        */
+/*   By: kabusitt <kabusitt@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 14:07:13 by kabusitt          #+#    #+#             */
-/*   Updated: 2022/03/02 16:59:10 by anifanto         ###   ########.fr       */
+/*   Updated: 2022/03/03 18:43:25 by kabusitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_pid;
+t_pid	g_pid;
 
 void	close_fds(t_prog *prog)
 {
@@ -58,17 +58,18 @@ void	run_prog(t_prog *prog)
 
 void	shell(t_prog *prog)
 {
-	if (pipe_size(prog) > 0)
-	{
-		prog->exec = 0;
-		pipe_init(prog);
-	}
-	prog->err = 0;
-	prog->pipnum = 0;
-	prog->delim = 0;
-	prog->redinput = 0;
-	prog->redoutput = 0;
+	int	i;
+
+	fix_global(prog);
 	run_prog(prog);
+	i = 0;
+	while (i < g_pid.size)
+	{
+		waitpid(g_pid.pid[i], &g_pid.status[i], 0);
+		if (g_pid.status[i])
+			prog->ret = g_pid.status[i] / 256;
+		++i;
+	}
 	reset_fd(prog);
 	close_fds(prog);
 	if (pipe_size(prog) > 0)
@@ -87,14 +88,13 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	prog.env = cpy_env(envp);
+	g_pid.pid = NULL;
+	g_pid.status = NULL;
 	prog.ret = 0;
 	ft_check_env(&prog, prog.env);
 	while (1)
 	{
-		prog.fdin = -1;
-		prog.fdout = -1;
-		g_pid = 0;
-		prog.exec = 1;
+		set_default(&prog);
 		ret = parseline(&prog);
 		if (ret == 1)
 			break ;

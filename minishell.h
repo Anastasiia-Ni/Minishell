@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anifanto <stasy247@mail.ru>                +#+  +:+       +#+        */
+/*   By: kabusitt <kabusitt@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 15:20:34 by kabusitt          #+#    #+#             */
-/*   Updated: 2022/03/02 16:33:56 by anifanto         ###   ########.fr       */
+/*   Updated: 2022/03/03 16:22:45 by kabusitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <signal.h>
 # include <fcntl.h>
+# include <string.h>
 # include <dirent.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
@@ -39,7 +40,6 @@ typedef struct s_prog
 	char	**env;
 	char	**token;
 	int		*type;
-	int		*flag;
 	int		ret;
 	int		pipes;
 	int		*pipfd;
@@ -54,6 +54,14 @@ typedef struct s_prog
 	int		delim;
 	int		err;
 }	t_prog;
+
+typedef struct s_pid
+{
+	int	*pid;
+	int	*status;
+	int	size;
+	int	index;
+}	t_pid;
 
 int		exec_cmd(t_prog *prog, char **cmd);
 void	sig_int(int sig);
@@ -91,7 +99,7 @@ void	pipe_exec(t_prog *prog, char *path, char **cmd);
 void	close_piptmp(t_prog *prog);
 void	reset_fd(t_prog *prog);
 void	builtin_chk(t_prog *prog, char **cmd);
-void	print_error(t_prog *prog);
+void	print_error_c(t_prog *prog, char *str);
 void	dup_delim(int fd);
 void	loop_delim(t_prog *prog, char *delim, int fd, int z);
 int		next_pipe(t_prog *prog, int i);
@@ -99,6 +107,7 @@ int		next_op(t_prog *prog, int i);
 int		check_hyphen(char *line, int i);
 char	*remove_tabs(char *line);
 void	redir(t_prog *prog, int z);
+int		ft_strcmp_lu(char *s1, char *s2);
 void	ft_exit(t_prog *prog);
 void	ft_env(t_prog *prog);
 int		ft_env_size(char **env);
@@ -123,7 +132,10 @@ char	**cpy_env(char **env);
 void	do_env(char *str, int i, t_prog *prog, char **ret);
 char	*env_name(char *str, int i, int len);
 int		env_len(char *str, int i);
+void	set_default(t_prog *prog);
+void	print_error_d(t_prog *prog, char *str);
+void	fix_global(t_prog *prog);
 
-extern int	g_pid;
+extern t_pid	g_pid;
 
 #endif

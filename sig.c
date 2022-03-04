@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anifanto <stasy247@mail.ru>                +#+  +:+       +#+        */
+/*   By: kabusitt <kabusitt@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 23:09:18 by kabusitt          #+#    #+#             */
-/*   Updated: 2022/03/01 13:52:40 by anifanto         ###   ########.fr       */
+/*   Updated: 2022/03/03 19:56:02 by kabusitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,23 @@
 
 void	sig_int(int sig)
 {
+	int	flag;
+	int	i;
+
+	flag = 1;
+	i = 0;
 	(void)sig;
-	if (g_pid == 0)
+	while (g_pid.size > 0 && i < g_pid.size)
 	{
+		if (g_pid.pid[i] != 0)
+			flag = 0;
+		++i;
+	}
+	if (flag)
+	{
+		rl_on_new_line();
+		rl_redisplay();
+		ft_putstr_fd("  \b\b", 2);
 		write(2, "\n", 1);
 		rl_replace_line("", 0);
 		rl_on_new_line();
@@ -28,13 +42,29 @@ void	sig_int(int sig)
 
 void	sig_quit(int sig)
 {
-	(void)sig;
-	if (g_pid != 0)
+	int	flag;
+	int	i;
+
+	flag = 1;
+	i = 0;
+	while (g_pid.size > 0 && i < g_pid.size)
 	{
-		ft_putstr_fd("Quit (core dumped)\n", 2);
+		if (g_pid.pid[i] != 0)
+			flag = 0;
+		++i;
+	}
+	if (!flag)
+	{
+		ft_putstr_fd("Quit: ", 2);
+		ft_putnbr_fd(sig, 2);
+		ft_putendl_fd("", 2);
 	}
 	else
-		ft_putstr_fd("\b\b  \b\b", 2);
+	{
+		rl_on_new_line();
+		rl_redisplay();
+		ft_putstr_fd("  \b\b", 2);
+	}
 }
 
 void	interrupt_delim(int sig)

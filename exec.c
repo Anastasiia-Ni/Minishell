@@ -6,7 +6,7 @@
 /*   By: kabusitt <kabusitt@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 14:53:09 by kabusitt          #+#    #+#             */
-/*   Updated: 2022/02/17 00:25:06 by kabusitt         ###   ########.fr       */
+/*   Updated: 2022/03/03 16:20:20 by kabusitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,23 +53,16 @@ char	*find_bin(char *bin, char *cmd)
 
 void	fork_and_exec(char *path, char **cmd, t_prog *prog)
 {
-	int	stat;
-
 	if (ft_strchr(path, '/') != NULL)
 	{
-		stat = 0;
-		g_pid = fork();
-		if (g_pid == 0)
+		g_pid.pid[g_pid.index] = fork();
+		if (g_pid.pid[g_pid.index] == 0)
 			pipe_exec(prog, path, cmd);
-		waitpid(g_pid, &stat, 0);
-		if (stat == 65280)
-			print_error(prog);
-		else if (stat)
-			prog->ret = stat / 256;
 		close_piptmp(prog);
+		g_pid.index++;
 	}
 	else
-		print_error(prog);
+		print_error_c(prog, path);
 }
 
 int	exec_cmd(t_prog *prog, char **cmd)

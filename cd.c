@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anifanto <stasy247@mail.ru>                +#+  +:+       +#+        */
+/*   By: kabusitt <kabusitt@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 15:51:40 by anifanto          #+#    #+#             */
-/*   Updated: 2022/03/02 16:54:53 by anifanto         ###   ########.fr       */
+/*   Updated: 2022/03/03 15:19:11 by kabusitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	ft_change_dir(char *str, t_prog *prog)
 		ft_putstr_fd("minishell: cd: ", 2);
 		ft_putstr_fd(str, 2);
 		if (access(str, 0) < 0)
-			ft_putendl_fd("No such file or directory", 2);
+			ft_putendl_fd(": No such file or directory", 2);
 		else if (fd < 0)
 			ft_putendl_fd("Permission denied", 2);
 		if (fd > 0)
