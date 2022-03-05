@@ -6,7 +6,7 @@
 /*   By: kabusitt <kabusitt@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 16:39:21 by kabusitt          #+#    #+#             */
-/*   Updated: 2022/03/03 19:57:58 by kabusitt         ###   ########.fr       */
+/*   Updated: 2022/03/05 14:55:13 by kabusitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ char	*find_env(char *str, t_prog *prog, int i)
 			do_env(str, ++i, prog, &ret);
 			i += env_len(str, i);
 		}
-		if (str[i])
+		else if (str[i])
 		{
 			if (str[i] == 1)
 				tmp[0] = '$';
