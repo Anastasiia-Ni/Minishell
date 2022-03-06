@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kabusitt <kabusitt@student.42abudhabi.a    +#+  +:+       +#+        */
+/*   By: anifanto <anifanto@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 15:20:34 by kabusitt          #+#    #+#             */
-/*   Updated: 2022/03/03 16:22:45 by kabusitt         ###   ########.fr       */
+/*   Updated: 2022/03/06 15:19:56 by anifanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ void	do_env(char *str, int i, t_prog *prog, char **ret);
 char	*env_name(char *str, int i, int len);
 int		env_len(char *str, int i);
 void	set_default(t_prog *prog);
-void	print_error_d(t_prog *prog, char *str);
+void	print_error_d(char *str);
 void	fix_global(t_prog *prog);
 
 extern t_pid	g_pid;

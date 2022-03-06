@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extra.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kabusitt <kabusitt@student.42abudhabi.a    +#+  +:+       +#+        */
+/*   By: anifanto <anifanto@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 12:46:04 by kabusitt          #+#    #+#             */
-/*   Updated: 2022/03/03 20:16:27 by kabusitt         ###   ########.fr       */
+/*   Updated: 2022/03/06 15:19:45 by anifanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	set_default(t_prog *prog)
 		free(g_pid.status);
 }
 
-void	print_error_d(t_prog *prog, char *str)
+void	print_error_d(char *str)
 {
 	if (errno == 2)
 	{
@@ -38,14 +38,12 @@ void	print_error_d(t_prog *prog, char *str)
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(": ", 2);
 		ft_putendl_fd(strerror(errno), 2);
-		prog->ret = 127;
 	}
 	else
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(str, 2);
 		ft_putendl_fd(": is a directory", 2);
-		prog->ret = 126;
 	}
 }
 
