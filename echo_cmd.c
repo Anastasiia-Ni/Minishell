@@ -6,7 +6,7 @@
 /*   By: kabusitt <kabusitt@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 22:59:30 by kabusitt          #+#    #+#             */
-/*   Updated: 2022/03/10 16:50:19 by kabusitt         ###   ########.fr       */
+/*   Updated: 2022/03/15 18:02:12 by kabusitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,49 @@ char	**remove_cmd(char **cmd, int pos)
 	new_cmd[i] = NULL;
 	free(cmd);
 	return (new_cmd);
+}
+
+char	*quotes_extra(char *str)
+{
+	char	*tmp;
+	int		i;
+	int		chk;
+	int		z;
+
+	tmp = malloc(sizeof(char) * (cnt_noquotes(str) + 1));
+	i = 0;
+	chk = 0;
+	z = 0;
+	while (str[i])
+	{
+		if (str[i] == '\"' && chk == 0)
+			chk = 1;
+		else if (str[i] == '\'' && chk == 0)
+			chk = 2;
+		else if (str[i] == '\"' && chk == 1)
+			chk = 0;
+		else if (str[i] == '\'' && chk == 2)
+			chk = 0;
+		else
+			tmp[z++] = str[i];
+		++i;
+	}
+	tmp[z] = '\0';
+	return (tmp);
+}
+
+void	close_pip(t_prog *prog)
+{
+	int	pip;
+
+	pip = prog->pipnum * 2;
+	if (!prog->pipnum)
+		close(prog->pipfd[0]);
+	else if (prog->pipnum > 0 && prog->pipes != prog->pipnum)
+	{
+		close(prog->pipfd[pip]);
+		close(prog->pipfd[pip - 1]);
+	}
+	else if (prog->pipes == prog->pipnum)
+		close(prog->pipfd[pip - 1]);
 }

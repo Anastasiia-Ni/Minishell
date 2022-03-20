@@ -6,7 +6,7 @@
 /*   By: kabusitt <kabusitt@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 14:57:38 by kabusitt          #+#    #+#             */
-/*   Updated: 2022/03/10 16:57:54 by kabusitt         ###   ########.fr       */
+/*   Updated: 2022/03/17 13:23:18 by kabusitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	cnt_notsep(char *line, int i, int *cnt)
 	c = 0;
 	while (line[i])
 	{
-		if (line[i] == 1 && line[i + 1]
+		if (line[i] == 1 && line[i + 1] && !c
 			&& (line[i + 1] == '\'' || line[i + 1] == '\"'))
 			(*cnt)--;
 		if (!c && (line[i] == '\'' || line[i] == '\"'))
@@ -61,9 +61,10 @@ void	cnt_notsep(char *line, int i, int *cnt)
 		{
 			if ((line[i] == '>' || line[i] == '|' || line[i] == '<') && !c)
 				break ;
-			(*cnt)++;
+			if (line[i] != '\"' && line[i] != '\'')
+				(*cnt)++;
 		}
-		if (line[i] == '\"')
+		if (line[i] == '\"' || line[i] == '\'')
 			(*cnt)++;
 		++i;
 	}
@@ -78,7 +79,7 @@ int	parseline(t_prog *prog)
 	line = readline("Minishell> ");
 	if (!line)
 	{
-		ft_putendl_fd("exit", 1);
+		readline_fix(prog, 0);
 		return (1);
 	}
 	if (line[0])
@@ -102,24 +103,27 @@ void	parse_exec(t_prog *prog, int i)
 {
 	char	**cmd;
 	int		z;
+	int		chk;
 
 	cmd = parse_cmd(prog, i);
-	z = 0;
-	while (cmd[z])
+	z = -1;
+	while (cmd[++z])
 	{
+		chk = z;
 		if (ft_strchr(cmd[z], 1))
+		{
 			expand(&cmd[z], prog);
-		if (cmd[z][0] == '\0')
-			cmd = remove_cmd(cmd, z--);
-		++z;
+			if (cmd[z][0] == '\0')
+				cmd = remove_cmd(cmd, z--);
+		}
+		if (chk == z)
+			remove_quotes(&cmd[z]);
 	}
-	remove_quotes(cmd);
-	if (is_builtin(cmd[0]))
+	if (cmd[0] && is_builtin(cmd[0]))
 		builtin_chk(prog, cmd);
-	else
+	else if (cmd[0])
 		exec_cmd(prog, cmd);
+	else
+		prog->parent = 1;
 	free_split(cmd);
-	prog->delim = 0;
-	prog->redinput = 0;
-	prog->redoutput = 0;
 }

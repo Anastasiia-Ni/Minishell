@@ -6,7 +6,7 @@
 /*   By: kabusitt <kabusitt@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 15:45:48 by anifanto          #+#    #+#             */
-/*   Updated: 2022/03/10 16:14:16 by kabusitt         ###   ########.fr       */
+/*   Updated: 2022/03/15 18:03:18 by kabusitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,38 +74,48 @@ int	ft_check_variable(char *com, char *env)
 	return (0);
 }
 
-void	ft_unset(t_prog *prog)
+void	ft_unset(t_prog *prog, char **cmd)
 {
 	int	tmp;
 	int	i;
 
 	i = 1;
-	if (!(prog->env) || !(prog->token[i]))
+	if (!(prog->env) || !(cmd[i]))
 		return ;
-	while (prog->token[i] && ft_check_unset_error(prog, prog->token[i]))
+	while (cmd[i] && ft_check_unset_error(prog, cmd[i]))
 	{
-		tmp = ft_find_env(prog->env, prog->token[i]);
+		tmp = ft_find_env(prog->env, cmd[i]);
 		if (tmp >= 0)
 		{
-			if (ft_check_variable(prog->token[i], prog->env[tmp]))
+			if (ft_check_variable(cmd[i], prog->env[tmp]))
 				prog->env = ft_change_unset_env(prog, prog->env, tmp);
 		}
 		i++;
 	}
 }
 
-void	remove_quotes(char **cmd)
+int	cnt_noquotes(char *str)
 {
-	int		i;
-	char	*tmp;
+	int	chk;
+	int	i;
+	int	cnt;
 
+	chk = 0;
+	cnt = 0;
 	i = 0;
-	tmp = NULL;
-	while (cmd[i])
+	while (str[i])
 	{
-		tmp = fandr_quotes(cmd[i]);
-		free(cmd[i]);
-		cmd[i] = tmp;
+		if (str[i] == '\"' && chk == 0)
+			chk = 1;
+		else if (str[i] == '\'' && chk == 0)
+			chk = 2;
+		else if (str[i] == '\"' && chk == 1)
+			chk = 0;
+		else if (str[i] == '\'' && chk == 2)
+			chk = 0;
+		else
+			cnt++;
 		++i;
 	}
+	return (cnt);
 }

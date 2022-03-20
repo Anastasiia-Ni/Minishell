@@ -6,7 +6,7 @@
 /*   By: kabusitt <kabusitt@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 20:22:58 by kabusitt          #+#    #+#             */
-/*   Updated: 2022/03/09 12:50:59 by kabusitt         ###   ########.fr       */
+/*   Updated: 2022/03/15 14:27:53 by kabusitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	cpy_str(char *line, char *str, int *i, int *z)
 	c = 0;
 	while (line[*i])
 	{
-		if (line[*i] == 1 && line[(*i) + 1]
+		if (line[*i] == 1 && line[(*i) + 1] && !c
 			&& (line[(*i) + 1] == '\'' || line[(*i) + 1] == '\"'))
 			;
 		else if (!c && (line[*i] == '\'' || line[*i] == '\"'))
@@ -83,9 +83,10 @@ void	cpy_str(char *line, char *str, int *i, int *z)
 		{
 			if ((line[*i] == '>' || line[*i] == '|' || line[*i] == '<') && !c)
 				break ;
-			str[(*z)++] = line[*i];
+			if (line[*i] != '\"' && line[*i] != '\'')
+				str[(*z)++] = line[*i];
 		}
-		if (line[*i] == '\"')
+		if (line[*i] == '\"' || line[*i] == '\'')
 			str[(*z)++] = line[*i];
 		(*i)++;
 	}

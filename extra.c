@@ -6,7 +6,7 @@
 /*   By: kabusitt <kabusitt@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 12:46:04 by kabusitt          #+#    #+#             */
-/*   Updated: 2022/03/10 16:17:06 by kabusitt         ###   ########.fr       */
+/*   Updated: 2022/03/17 17:29:35 by kabusitt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	set_default(t_prog *prog)
 	prog->delim = 0;
 	prog->redinput = 0;
 	prog->redoutput = 0;
+	g_pid.pipsize = 0;
+	prog->parent = 0;
 	g_pid.size = 0;
 	g_pid.index = 0;
 	if (g_pid.pid)
@@ -59,64 +61,24 @@ void	fix_global(t_prog *prog)
 	{
 		prog->exec = 0;
 		pipe_init(prog);
+		g_pid.pipfd = prog->pipfd;
+		g_pid.pipsize = prog->pipes;
 	}
 	else
 	{
 		g_pid.pid = malloc(sizeof(int) * 1);
 		g_pid.status = malloc(sizeof(int) * 1);
 		g_pid.size = 1;
-		ft_bzero(g_pid.pid, 1);
-		ft_bzero(g_pid.status, 1);
+		ft_memset(g_pid.pid, 1, 1);
+		ft_memset(g_pid.status, 1, 1);
 	}
 }
 
-char	*rmv_quote(char *str, int i)
+void	remove_quotes(char **cmd)
 {
-	char	*new;
-	int		z;
-	int		a;
-
-	new = malloc(sizeof(char) * ft_strlen(str));
-	if (!new)
-		return (NULL);
-	a = 0;
-	z = 0;
-	while (str[a])
-	{
-		if (a == i)
-			a++;
-		new[z++] = str[a++];
-	}
-	new[z] = '\0';
-	free(str);
-	return (new);
-}
-
-char	*fandr_quotes(char *str)
-{
-	int		i;
-	int		chk;
 	char	*tmp;
 
-	i = -1;
-	tmp = ft_strdup(str);
-	chk = 0;
-	while (tmp[++i])
-	{
-		if (tmp[i] == '\"' && chk == 0)
-		{
-			chk = 1;
-			tmp = rmv_quote(tmp, i--);
-		}
-		else if (tmp[i] == '\'' && chk == 0)
-			chk = 2;
-		else if (tmp[i] == '\"' && chk == 1)
-		{
-			chk = 0;
-			tmp = rmv_quote(tmp, i--);
-		}
-		else if (tmp[i] == '\'' && chk == 2)
-			chk = 0;
-	}
-	return (tmp);
+	tmp = quotes_extra(*cmd);
+	free(*cmd);
+	*cmd = tmp;
 }
