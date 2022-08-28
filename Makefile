@@ -1,8 +1,13 @@
-NAME = minishell
-SRC = minishell.c exec.c sig.c env.c parse.c token.c builtin.c \
-		echo_cmd.c get_env.c pwd.c type.c pipe.c pipe2.c utils.c \
-		exit.c env1.c cd.c unset.c export.c export_utils.c fix_token.c extra.c
-CC = gcc
+NAME =	minishell
+SRC = 	sources/minishell.c sources/builtin/cd.c sources/builtin/echo_cmd.c sources/builtin/exit.c \
+		sources/builtin/export_utils.c sources/builtin/export.c sources/builtin/pwd.c sources/builtin/unset.c \
+		sources/env/env1.c sources/env/get_env.c sources/exec/builtin.c sources/exec/exec.c \
+		sources/exec/extra.c sources/parsing/env.c sources/parsing/fix_token.c sources/parsing/token.c \
+		sources/parsing/type.c sources/parsing/utils.c sources/tools/parse.c sources/tools/pipe.c \
+		sources/tools/pipe2.c sources/tools/sig.c 
+		       
+CC = 	gcc
+
 CFLAGS = -Wall -Wextra -Werror
 
 all: ${NAME}
